@@ -146,6 +146,13 @@ SONGS = {
         "number": 11,
         "season": 1
     },
+    "STYX HELIX nocut": {
+        "image": "styx_helix",
+        "artist": "Myth & Roid",
+        "type": "Ending",
+        "number": 1,
+        "season": 1
+    },
     "STYX HELIX (slow ver.)": {
         "image": "styx_helix",
         "artist": "Myth & Roid",
