@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE files (VS Code, PyCharm, etc.)
+.idea/
+.vscode/
+
+# Build artifacts
+build/
+dist/
+*.spec
+
+# Logs (if you create any)
+*.log
+
+# Virtual environment (if you decide to use one later)
+venv/
