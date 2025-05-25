@@ -6,7 +6,21 @@ SONGS = {
         "number": 1,
         "season": 1
     },
+    "Redo (LIVE)": {
+        "image": "redo",
+        "artist": "Konomi Suzuki",
+        "type": "Opening",
+        "number": 1,
+        "season": 1
+    },
     "STYX HELIX": {
+        "image": "styx_helix",
+        "artist": "Myth & Roid",
+        "type": "Ending",
+        "number": 1,
+        "season": 1
+    },
+    "STYX HELIX (LIVE)": {
         "image": "styx_helix",
         "artist": "Myth & Roid",
         "type": "Ending",
@@ -34,6 +48,13 @@ SONGS = {
         "number": 1,
         "season": 2
     },
+    "Realize (LIVE)": {
+        "image": "realize",
+        "artist": "Konomi Suzuki",
+        "type": "Opening",
+        "number": 1,
+        "season": 2
+    },
     "Memento": {
         "image": "memento",
         "artist": "nonoc",
@@ -42,6 +63,13 @@ SONGS = {
         "season": 2
     },
     "Long shot": {
+        "image": "long_shot",
+        "artist": "Mayu Maeshima",
+        "type": "Opening",
+        "number": 2,
+        "season": 2
+    },
+    "Long shot (LIVE)": {
         "image": "long_shot",
         "artist": "Mayu Maeshima",
         "type": "Opening",
@@ -146,14 +174,14 @@ SONGS = {
         "number": 11,
         "season": 1
     },
-    "STYX HELIX nocut": {
+    "STYX HELIX (Full ver.)": {
         "image": "styx_helix",
         "artist": "Myth & Roid",
         "type": "Ending",
         "number": 1,
         "season": 1
     },
-    "STYX HELIX (slow ver.)": {
+    "STYX HELIX (Slow ver.)": {
         "image": "styx_helix",
         "artist": "Myth & Roid",
         "type": "Ending",
@@ -195,4 +223,5 @@ SONGS = {
         "number": "Season Finale",
         "season": 2
     },
+
 }
