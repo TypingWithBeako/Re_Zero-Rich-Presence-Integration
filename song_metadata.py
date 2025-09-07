@@ -223,5 +223,14 @@ SONGS = {
         "number": "Season Finale",
         "season": 2
     },
-
+    "Yūsha": {
+        "image": "yusha",
+        "artist": "YOASOBI",
+        "type": "special",
+    },
+    "Haru": {
+        "image": "haru",
+        "artist": "Yorushika",
+        "type": "special",
+    }
 }

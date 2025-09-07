@@ -96,52 +96,80 @@ def extract_song_info(window_title):
 # Rich Presence setup
 client_id = "1364416390618157176"
 RPC = pypresence.Presence(client_id)
-RPC.connect()
 
-start_time = time.time()  # Move this line HERE
+def connect_with_retries(retries=5, delay=15):
+    """Attempts to connect to Discord RPC with a specified number of retries."""
+    for i in range(retries):
+        try:
+            RPC.connect()
+            logging.info("Successfully connected to Discord RPC.")
+            return True
+        # except pypresence.exceptions.DiscordNotFound:
+        #     logging.error("Discord not found. Ensure Discord is running and properly installed.")
+        #     return False  # Fatal error, no point in retrying.
+        except Exception as e:
+            logging.warning(f"Failed to connect to Discord RPC. Retrying in {delay} seconds... (Attempt {i+1}/{retries})")
+            time.sleep(delay)
+    logging.error("Failed to connect to Discord RPC after multiple attempts. Exiting.")
+    return False
+
+# Attempt initial connection
+if not connect_with_retries():
+    exit(1)
+
+start_time = time.time()
 
 # Main loop
 while True:
-    # Initialization
-    song_name = None
-    artist_name = ""
-    image_key = ""
+    try:
+        # Initialization
+        song_name = None
+        artist_name = ""
+        image_key = ""
 
-    windows = find_chrome_window_with_title()
+        windows = find_chrome_window_with_title()
 
-    if windows:
-        _, window_title = windows[0]
-        song_name = extract_song_info(window_title)
+        if windows:
+            _, window_title = windows[0]
+            song_name = extract_song_info(window_title)
 
-        if song_name and song_name in SONGS:
-            song_data = SONGS[song_name]
-            artist_name = song_data.get("artist", "Unknown Artist")
-            image_key = song_data.get("image", "beako_drinking_coffee")
+            if song_name and song_name in SONGS:
+                song_data = SONGS[song_name]
+                artist_name = song_data.get("artist", "Unknown Artist")
+                image_key = song_data.get("image", "beako_drinking_coffee")
 
-            # Update Discord Rich Presence - Spotify Style
-            RPC.update(
-                details=f"Đang phát:「{song_name}」",  # Song Title in details
-                state=f"◆ {artist_name}",  # Artist in state
-                large_image=image_key,  # Song-specific or default image
-                large_text=f"{song_name}",  # Tooltip for large image
-                start=start_time  # Shows elapsed time
-            )
+                # Update Discord Rich Presence
+                RPC.update(
+                    details=f"Đang phát:「{song_name}」",
+                    state=f"◆ {artist_name}",
+                    large_image=image_key,
+                    large_text=f"{song_name}",
+                    start=start_time
+                )
+            else:
+                RPC.update(
+                    details="Not in playlist, I suppose.",
+                    state="Drinking coffee",
+                    large_image="beako_drinking_coffee",
+                    large_text="Just drinking coffee, kashira.",
+                    start=start_time
+                )
         else:
+            # Default when window not found (Idle state)
             RPC.update(
-                details="Not in playlist, I suppose.",
+                details="Idle",
                 state="Drinking coffee",
                 large_image="beako_drinking_coffee",
                 large_text="Just drinking coffee, kashira.",
                 start=start_time
             )
-    else:
-        # Default when window not found (Idle state)
-        RPC.update(
-            details="Idle",
-            state="Drinking coffee",
-            large_image="beako_drinking_coffee",
-            large_text="Just drinking coffee, kashira.",
-            start=start_time  # Keeps counting even when idle
-        )
+    except pypresence.exceptions.PyPresenceException:
+        logging.warning("Discord connection was closed. Attempting to reconnect...")
+        if not connect_with_retries():
+            break  # Exit the loop if reconnection fails
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+        # Optionally, you can add a short sleep here to prevent a tight loop on persistent errors.
+        time.sleep(5)
 
-    time.sleep(update_interval)  # Use the configured interval (default is 1)
+    time.sleep(update_interval)
